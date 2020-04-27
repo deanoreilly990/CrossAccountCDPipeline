@@ -364,23 +364,17 @@ Resources:
           Id: !Ref CMKARN
           Type: KMS
   S3BucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref S3Bucket
-      PolicyDocument:
-        Statement:
-          -
-            Action:
-              - s3:*
-            Effect: Allow
-            Resource:
-              - !Sub arn:aws:s3:::${S3Bucket}
-              - !Sub arn:aws:s3:::${S3Bucket}/*
-            Principal:
-              AWS:
-                - !Sub arn:aws:iam::${DevAccount}:role/ToolsAcctCodePipelineCodeCommitRole
-                - !Sub arn:aws:iam::${TestAccount}:role/ToolsAcctCodePipelineCloudFormationRole
-                - !Sub arn:aws:iam::${TestAccount}:role/cloudformationdeployer-role
-                - !Sub arn:aws:iam::${ProductionAccount}:role/ToolsAcctCodePipelineCloudFormationRole
-                - !Sub arn:aws:iam::${ProductionAccount}:role/cloudformationdeployer-role
-                - !GetAtt [BuildProjectRole,Arn]
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref S3Bucket
+        PolicyDocument:
+          Statement:
+            -
+              Action:
+                - s3:*
+              Effect: Allow
+              Resource:
+                - !Sub arn:aws:s3:::${S3Bucket}
+                - !Sub arn:aws:s3:::${S3Bucket}/*
+              Principal: '*'
+                  

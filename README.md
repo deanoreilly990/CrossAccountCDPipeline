@@ -59,3 +59,9 @@ git push AWSCodeCommit master
 [code-pipeline-url]: https://aws.amazon.com/codepipeline/
 [clouformation-url]: https://aws.amazon.com/cloudformation/
 [lambda-url]: https://aws.amazon.com/lambda/
+
+
+[profile amazon-connect]
+source_profile=deloitte-nz-identity-user
+role_arn=arn:aws:iam::584868484410:role/DeloitteAdministrator
+mfa_serial=arn:aws:iam::564159269414:mfa/doreilly
