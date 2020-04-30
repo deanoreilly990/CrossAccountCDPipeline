@@ -1,18 +1,10 @@
-#  Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-#  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with
-#  the License. A copy of the License is located at
-#      http://aws.amazon.com/apache2.0/
-#  or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-#  CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
-#  limitations under the License.
-
 AWSTemplateFormatVersion: '2010-09-09'
 Description: CodePipeline for the Sample Lambda Function
 Parameters:
   ProjectName:
-    Description: Updated name of priject update 
+    Description: Name of the Project
     Type: String
-    Default: sample_lambda
+    Default: sample-lambda
   S3Bucket:
     Description: S3 Bucket, which will hold the artifacts
     Type: String
@@ -37,12 +29,6 @@ Conditions:
   AddCodeBuildResource: !Equals [ !Ref CrossAccountCondition, true ]
 
 Resources:
-  CodePipelineSNSTopic:
-    Type: AWS::SNS::Topic
-    Properties:
-      Subscription:
-        - Endpoint: 'doreilly@deloitte.co.nz'
-          Protocol: email
 
   BuildProjectRole:
     Type: AWS::IAM::Role
@@ -225,7 +211,7 @@ Resources:
                 Version: 1
                 Provider: CodeCommit
               Configuration:
-                RepositoryName: custom_lambda #!Ref ProjectName
+                RepositoryName: !Ref ProjectName
                 BranchName: master
               OutputArtifacts:
                 - Name: SCCheckoutArtifact
