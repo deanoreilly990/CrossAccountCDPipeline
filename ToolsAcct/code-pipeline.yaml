@@ -236,23 +236,23 @@ Resources:
                   - AddCodeBuildResource
                   - !Sub arn:aws:iam::${DevAccount}:role/ToolsAcctCodePipelineCodeCommitRole
                   - !Ref AWS::NoValue
-        -
-          Name: Build
-          Actions:
-          -
-            Name: Build
-            ActionTypeId:
-              Category: Build
-              Owner: AWS
-              Version: 1
-              Provider: CodeBuild
-            Configuration:
-              ProjectName: !Ref BuildProject
-            RunOrder: 1
-            InputArtifacts:
-              - Name: SCCheckoutArtifact
-            OutputArtifacts:
-              - Name: BuildOutput
+       # -
+          #Name: Build
+         # Actions:
+         # -
+         #   Name: Build
+          #  ActionTypeId:
+          #    Category: Build
+          #    Owner: AWS
+          #    Version: 1
+          #    Provider: CodeBuild
+          #  Configuration:
+          #    ProjectName: !Ref BuildProject
+          #  RunOrder: 1
+          #  InputArtifacts:
+          #    - Name: SCCheckoutArtifact
+          #  OutputArtifacts:
+          #    - Name: BuildOutput
             #REMOVE:RoleArn: arn:aws:iam::485873893626:role/ToolsAcctCodePipelineCodeCommitRole
         - Name: DeployToTest
           Actions:
@@ -267,7 +267,8 @@ Resources:
                 ActionMode: CHANGE_SET_REPLACE
                 StackName: sample-lambda-dev
                 Capabilities: CAPABILITY_NAMED_IAM
-                TemplatePath: BuildOutput::samtemplate.yaml
+                #TemplatePath: BuildOutput::samtemplate.yaml
+                TemplatePath: SCCheckoutArtifact::deploy_finops_lambda.yaml
                 #RoleArn: !Sub arn:aws:iam::${TestAccount}:role/cloudformationdeployer-role
                 RoleArn:
                   Fn::If:
@@ -275,7 +276,8 @@ Resources:
                   - !Sub arn:aws:iam::${TestAccount}:role/cloudformationdeployer-role
                   - !Ref AWS::NoValue
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: SCCheckoutArtifact
+              #  - Name: BuildOutput
               RunOrder: 1
               #RoleArn: !Sub arn:aws:iam::${TestAccount}:role/ToolsAcctCodePipelineCloudFormationRole
               RoleArn:
@@ -300,7 +302,7 @@ Resources:
                   - !Sub arn:aws:iam::${TestAccount}:role/cloudformationdeployer-role
                   - !Ref AWS::NoValue
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: SCCheckoutArtifact #::deploy_finops_lambda.yaml
               RunOrder: 2
               #RoleArn: !Sub arn:aws:iam::${TestAccount}:role/ToolsAcctCodePipelineCloudFormationRole
               RoleArn:
@@ -321,7 +323,7 @@ Resources:
                 ActionMode: CHANGE_SET_REPLACE
                 StackName: sample-lambda-test
                 Capabilities: CAPABILITY_NAMED_IAM
-                TemplatePath: BuildOutput::samtemplate.yaml
+                TemplatePath: SCCheckoutArtifact::deploy_finops_lambda.yaml
                 #RoleArn: !Sub arn:aws:iam::${ProductionAccount}:role/cloudformationdeployer-role
                 RoleArn:
                   Fn::If:
@@ -329,7 +331,7 @@ Resources:
                   - !Sub arn:aws:iam::${ProductionAccount}:role/cloudformationdeployer-role
                   - !Ref AWS::NoValue
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: SCCheckoutArtifact #::deploy_finops_lambda.yaml
               RunOrder: 1
               #RoleArn: !Sub arn:aws:iam::${ProductionAccount}:role/ToolsAcctCodePipelineCloudFormationRole
               RoleArn:
@@ -354,7 +356,7 @@ Resources:
                   - !Sub arn:aws:iam::${ProductionAccount}:role/cloudformationdeployer-role
                   - !Ref AWS::NoValue
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: SCCheckoutArtifact #::deploy_finops_lambda.yaml
               RunOrder: 2
               #RoleArn: !Sub arn:aws:iam::${ProductionAccount}:role/ToolsAcctCodePipelineCloudFormationRole
               RoleArn:
